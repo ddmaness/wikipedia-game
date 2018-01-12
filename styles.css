@@ -80,6 +80,10 @@ Game Module
     visibility: visible
 }
 
+#start-digging-button.removed {
+    display: none;
+}
+
 /*
 ===========================================
 Screen Reveal State Rules

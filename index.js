@@ -60,6 +60,10 @@ function loadSummary(query, queryTwo) {
 }
 
 function loadDoc(query) {
+    var startDiggingButton =document.getElementById('start-digging-button')
+    if (!startDiggingButton.classList.contains('removed')){
+        startDiggingButton.classList.add('removed');
+    }
     var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&redirects=1&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
