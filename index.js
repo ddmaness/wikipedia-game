@@ -21,6 +21,39 @@ function startingLinks() {
     document.getElementById('query-two').innerText = player.targetLink;
 }
 
+function loadSummary(query, queryTwo) {
+    var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
+    var urlTwo = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + queryTwo + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = JSON.parse(this.responseText);
+            document.getElementById('starting-link').innerHTML = res.parse.text['*'];
+            var links = document.getElementsByTagName('a');
+            var linksArr = Array.prototype.slice.call(links);
+            linksArr.forEach(function(elem){
+                elem.classList.add('invalid-link');
+            })
+            var xhrTwo = new XMLHttpRequest();
+            xhrTwo.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var res = JSON.parse(this.responseText);
+                    document.getElementById('target-link').innerHTML = res.parse.text['*'];
+                    var links = document.getElementsByTagName('a');
+                    var linksArr = Array.prototype.slice.call(links);
+                    linksArr.forEach(function(elem){
+                        elem.classList.add('invalid-link');
+                    })
+                }
+            }
+            xhrTwo.open("GET", urlTwo, false);
+            xhrTwo.send();
+        }
+    }
+    xhr.open("GET", url, false);
+    xhr.send();
+}
+
 function loadDoc(query) {
     var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&redirects=1&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
     var xhr = new XMLHttpRequest();
@@ -31,11 +64,11 @@ function loadDoc(query) {
             var links = document.getElementsByTagName('a');
             var linksArr = Array.prototype.slice.call(links);
             linksArr.forEach(function(elem){
-                if (/^https?:|.ogv$|.webm$|.ogg$/.test(elem.href)) {
+                if (/^https?:|.ogv$|.webm$|.ogg$|.svg|Portal:/.test(elem.href)) {
                     elem.classList.add('invalid-link');
                 }
                 else {
-                    elem.addEventListener("click", checkForExternalLink)
+                    elem.addEventListener("click", handleLink)
                 }
             })
 
@@ -53,10 +86,16 @@ function randomQuery() {
     return query;
 }
 
-function checkForExternalLink(e) {
+function handleLink(e) {
     console.log('click');
+    var query=/\/wiki\/(.*)/.exec(this.href)[1];
     var link = this.href
+    player.score++;
+    if (query == player.targetLink) {
+        alert('you Win! it took you ' + player.score + ' links');
+        return;
+    }
+    player.links.push(link);
     e.preventDefault();
-    var query=/\/wiki\/(.*)/.exec(link)[1];
     loadDoc(query);   
 }

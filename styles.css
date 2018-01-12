@@ -13,7 +13,10 @@ div.reflist.columns.references-column-width b,
 .mw-cite-backlink,
 div.navbox,
 #External_links,
-table {
+table,
+.thumb,
+.portal,
+#See_also {
     display: none;
 }
 

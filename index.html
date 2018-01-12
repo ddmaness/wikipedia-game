@@ -5,8 +5,9 @@
 </head>
 <body onload="startingLinks()">
     <p id="score"></p>
-    <p id="query-one"></p>
-    <p id="query-two"></p>
-    <button onclick="loadDoc('butt')">Retrieve</button>
+    <p id="starting-link"></p>
+    <p id="target-link"></p>
+    <button onclick="loadSummary(player.startingLink, player.targetLink)">Start Game</button>
+    <button onclick="loadDoc(player.startingLink)">Retrieve</button>
     <div id="page"></div>
 </body>
