@@ -1,0 +1,28 @@
+.wiki-output {
+    background-color: peachpuff;
+}
+
+.wiki-output p {
+    font-size: 16px;
+}
+
+.wiki-output .thumbcaption,
+.hatnote.navigation-not-searchable,
+.mw-editsection,
+div.reflist.columns.references-column-width b,
+.mw-cite-backlink,
+div.navbox,
+#External_links,
+table {
+    display: none;
+}
+
+div.reflist.columns.references-column-width a,
+div.refbegin.columns.references-column-width a,
+a.external.text,
+.invalid-link {
+  text-decoration: none;
+  color: black;
+  pointer-events: none;
+  cursor: default;  
+}
