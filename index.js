@@ -21,6 +21,11 @@ function startingLinks() {
     document.getElementById('query-two').innerText = player.targetLink;
 }
 
+function switchScreen(idToHide, idToReveal) {
+    document.getElementById(idToHide).classList.remove('is-visible');
+    document.getElementById(idToReveal).classList.add('is-visible');
+}
+
 function loadSummary(query, queryTwo) {
     var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
     var urlTwo = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + queryTwo + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'

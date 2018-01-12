@@ -1,13 +1,33 @@
 <!Doctype HTML>
-<head>
-    <script type="text/javascript" src="index.js"></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body onload="startingLinks()">
-    <p id="score"></p>
-    <p id="starting-link"></p>
-    <p id="target-link"></p>
-    <button onclick="loadSummary(player.startingLink, player.targetLink)">Start Game</button>
-    <button onclick="loadDoc(player.startingLink)">Retrieve</button>
-    <div id="page"></div>
-</body>
+<html>
+    <head>
+        <script type="text/javascript" src="index.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body onload="startingLinks()">
+        <div id="start-menu" class="is-visible">
+            <h1>DOWN THE RABBIT HOLE</h1>
+            <button onclick="switchScreen('start-menu', 'how-to')">Start Game</button>
+        </div>
+        <div id="how-to">
+            <h1>How to Play</h1>
+            <p>You will be given two topics</p>
+            <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia for the second topic by following the fewest links possible</p>
+            <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
+                use the <button>Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
+                score)
+            </p>
+            <div id=info-about-game>
+                <p></p>
+            </div>
+            <button onclick="switchScreen('how-to', 'game'), loadSummary(player.startingLink, player.targetLink)">I'm Ready to Play</button>
+        </div>
+        <div id="game">
+            <p id="score"></p>
+            <p id="starting-link"></p>
+            <p id="target-link"></p>
+            <button onclick="loadDoc(player.startingLink)">Start Digging!</button>
+            <div id="page"></div>
+        </div>
+    </body>
+</html>

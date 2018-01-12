@@ -1,3 +1,9 @@
+/*
+=========================================
+Modifying Wiki article output
+=========================================
+*/
+
 .wiki-output {
     background-color: peachpuff;
 }
@@ -29,3 +35,53 @@ a.external.text,
   pointer-events: none;
   cursor: default;  
 }
+
+/*
+===========================================
+Start Menu Module
+===========================================
+*/
+
+#start-menu {
+    position: absolute;
+    visibility: hidden;
+}
+
+#start-menu.is-visible {
+    visibility: visible;
+}
+
+/*
+===========================================
+How-To-Play Module
+===========================================
+*/
+#how-to {
+    position: absolute;
+    visibility: hidden;
+}
+
+#how-to.is-visible {
+    visibility: visible
+}
+
+/*
+===========================================
+Game Module
+===========================================
+*/
+
+#game {
+    position: absolute;
+    visibility: hidden;
+}
+
+#game.is-visible {
+    visibility: visible
+}
+
+/*
+===========================================
+Screen Reveal State Rules
+===========================================
+*/
