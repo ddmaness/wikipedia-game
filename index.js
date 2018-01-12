@@ -6,7 +6,7 @@ var player = {
     targetLink: '',
 }
 
-var querys = [
+var queries = [
     'Carnatic_music',
     'Stoicism',
     'Mica',
@@ -14,6 +14,7 @@ var querys = [
     'Dodecahedron'
 ]
 
+// capture two random elements from the queries array to serve as the starting topics for the game
 function startingLinks() {
     player.startingLink = randomQuery();
     player.targetLink = randomQuery();
@@ -21,11 +22,13 @@ function startingLinks() {
     document.getElementById('query-two').innerText = player.targetLink;
 }
 
+// Hide and element and reveal another to emulate a 'screen switching' effect
 function switchScreen(idToHide, idToReveal) {
     document.getElementById(idToHide).classList.remove('is-visible');
     document.getElementById(idToReveal).classList.add('is-visible');
 }
 
+// retrieve the summary section of two random elements from the queries array
 function loadSummary(query, queryTwo) {
     var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
     var urlTwo = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + queryTwo + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
@@ -60,10 +63,12 @@ function loadSummary(query, queryTwo) {
 }
 
 function loadDoc(query) {
+    // Remove 'start digging button if hasn't been removed already
     var startDiggingButton =document.getElementById('start-digging-button')
     if (!startDiggingButton.classList.contains('removed')){
         startDiggingButton.classList.add('removed');
     }
+    // Retrieve wiki of query topic and display formated version on page
     var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&redirects=1&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -87,24 +92,24 @@ function loadDoc(query) {
     xhr.send();
 }
 
+// Return random element from queries array
 function randomQuery() {
-    var index = Math.floor(Math.random() * Math.floor(querys.length));
-    var query = querys[index];
-    querys.splice(index, 1);
-    console.log(querys);
+    var index = Math.floor(Math.random() * Math.floor(queries.length));
+    var query = queries[index];
+    queries.splice(index, 1);
     return query;
 }
 
+
+// Check to see if link clicked matches target link if not retrieve article for that link
 function handleLink(e) {
-    console.log('click');
     var query=/\/wiki\/(.*)/.exec(this.href)[1];
-    var link = this.href
     player.score++;
     if (query == player.targetLink) {
         alert('you Win! it took you ' + player.score + ' links');
         return;
     }
-    player.links.push(link);
+    player.links.push(query);
     e.preventDefault();
     loadDoc(query);   
 }
