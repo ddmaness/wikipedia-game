@@ -5,6 +5,14 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body onload="startingLinks()">
+        <div id='prompt-overlay'>
+            <div id='prompt'>
+                <p>This is connected to that because...</p>
+                <input type="text" id="connection">
+                <button>Okay</button>
+                <button>Cancel</button>
+            </div>
+        </div>
         <div id="start-menu" class="is-visible">
             <h1>DOWN THE RABBIT HOLE</h1>
             <button onclick="switchScreen('start-menu', 'how-to')">Start Game</button>

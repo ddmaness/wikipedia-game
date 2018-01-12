@@ -14,6 +14,15 @@ var queries = [
     'Dodecahedron'
 ]
 
+
+// Return random element from queries array
+function randomQuery() {
+    var index = Math.floor(Math.random() * Math.floor(queries.length));
+    var query = queries[index];
+    queries.splice(index, 1);
+    return query;
+}
+
 // capture two random elements from the queries array to serve as the starting topics for the game
 function startingLinks() {
     player.startingLink = randomQuery();
@@ -82,7 +91,7 @@ function loadDoc(query) {
                     elem.classList.add('invalid-link');
                 }
                 else {
-                    elem.addEventListener("click", handleLink)
+                    elem.addEventListener("click", promptConnection)
                 }
             })
 
@@ -92,17 +101,14 @@ function loadDoc(query) {
     xhr.send();
 }
 
-// Return random element from queries array
-function randomQuery() {
-    var index = Math.floor(Math.random() * Math.floor(queries.length));
-    var query = queries[index];
-    queries.splice(index, 1);
-    return query;
+function promptConnection(e){
+    var query=/\/wiki\/(.*)/.exec(this.href)[1];
+    document.getElementById('prompt-overlay').classList.add('is-visible')
+    e.preventDefault();
 }
 
-
 // Check to see if link clicked matches target link if not retrieve article for that link
-function handleLink(e) {
+function handleLink(query) {
     var query=/\/wiki\/(.*)/.exec(this.href)[1];
     player.score++;
     if (query == player.targetLink) {
