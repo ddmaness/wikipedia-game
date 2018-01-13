@@ -7,10 +7,11 @@
     <body onload="startingLinks()">
         <div id='prompt-overlay'>
             <div id='prompt'>
-                <p>This is connected to that because...</p>
-                <input type="text" id="connection">
-                <button>Okay</button>
-                <button>Cancel</button>
+                <p id="prompt-text"></p>
+                <input id="prompt-input" onfocus="removeInputRequired()" type="text" maxlength = "500">
+                <button id="prompt-confirm-button" onclick="confirmConnection()">Okay</button>
+                <button id="prompt-cancel-button" onclick="cancelConnection()">Cancel</button>
+                <p id="prompt-input-required">Please state how these two topics are related before continuing</p>
             </div>
         </div>
         <div id="start-menu" class="is-visible">
@@ -34,8 +35,17 @@
             <p id="score"></p>
             <p id="starting-link"></p>
             <p id="target-link"></p>
-            <button id='start-digging-button' onclick="loadDoc(player.startingLink)">Start Digging!</button>
+            <div>
+                <ul id="game-links-list">
+                </ul>
+            </div>
+            <button id='start-digging-button' onclick="loadJSON(player.startingLink), displayArticle()">Start Digging!</button>
             <div id="page"></div>
+            <button onclick="previousArticle()">Previous Article</button>
+        </div>
+        <div id="results">
+            <button onclick="tryAgain(true)">Play again with the same topics</button>
+            <button onclick="tryAgain(false)">Play again with two new topics</button>
         </div>
     </body>
 </html>

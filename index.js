@@ -1,17 +1,22 @@
 
 var player = {
     score : 0,
+    urlLinks: [],
     links : [],
     startingLink: '',
     targetLink: '',
+    previousLink: '',
+    workingLink: '',
+    article: undefined,
 }
 
+
+
 var queries = [
-    'Carnatic_music',
+    'Athens',
     'Stoicism',
-    'Mica',
+    'Ancient_Rome',
     'Battle_of_Marathon',
-    'Dodecahedron'
 ]
 
 
@@ -23,19 +28,24 @@ function randomQuery() {
     return query;
 }
 
+
+
 // capture two random elements from the queries array to serve as the starting topics for the game
 function startingLinks() {
     player.startingLink = randomQuery();
     player.targetLink = randomQuery();
-    document.getElementById('query-one').innerText = player.startingLink;
-    document.getElementById('query-two').innerText = player.targetLink;
+    player.previousLink = player.startingLink;
 }
+
+
 
 // Hide and element and reveal another to emulate a 'screen switching' effect
 function switchScreen(idToHide, idToReveal) {
     document.getElementById(idToHide).classList.remove('is-visible');
     document.getElementById(idToReveal).classList.add('is-visible');
 }
+
+
 
 // retrieve the summary section of two random elements from the queries array
 function loadSummary(query, queryTwo) {
@@ -71,7 +81,9 @@ function loadSummary(query, queryTwo) {
     xhr.send();
 }
 
-function loadDoc(query) {
+
+
+function loadJSON(query) {
     // Remove 'start digging button if hasn't been removed already
     var startDiggingButton =document.getElementById('start-digging-button')
     if (!startDiggingButton.classList.contains('removed')){
@@ -82,40 +94,157 @@ function loadDoc(query) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var res = JSON.parse(this.responseText);
-            document.getElementById('page').innerHTML = res.parse.text['*'];
-            var links = document.getElementsByTagName('a');
-            var linksArr = Array.prototype.slice.call(links);
-            linksArr.forEach(function(elem){
-                if (/^https?:|.ogv$|.webm$|.ogg$|.svg|Portal:/.test(elem.href)) {
-                    elem.classList.add('invalid-link');
-                }
-                else {
-                    elem.addEventListener("click", promptConnection)
-                }
-            })
-
+            player.article = JSON.parse(this.responseText);
+            setTimeout(function(){
+                document.getElementById('prompt-input').classList.add('is-visible');
+                document.getElementById('prompt-confirm-button').classList.add('is-visible');
+                document.getElementById('prompt-cancel-button').classList.add('is-visible');
+            },1000)
         }
     }
     xhr.open("GET", url, false);
     xhr.send();
 }
 
-function promptConnection(e){
-    var query=/\/wiki\/(.*)/.exec(this.href)[1];
-    document.getElementById('prompt-overlay').classList.add('is-visible')
-    e.preventDefault();
+
+
+function displayArticle() {
+    document.getElementById('page').innerHTML = player.article.parse.text['*'];
+    var links = document.getElementsByTagName('a');
+    var linksArr = Array.prototype.slice.call(links);
+    linksArr.forEach(function(elem){
+        if (/^https?:|.ogv$|.webm$|.ogg$|.svg$|Portal:|Special:/.test(elem.href)) {
+            elem.classList.add('invalid-link');
+        }
+        else {
+            elem.addEventListener("click", promptConnection)
+        }
+    })
 }
 
-// Check to see if link clicked matches target link if not retrieve article for that link
-function handleLink(query) {
-    var query=/\/wiki\/(.*)/.exec(this.href)[1];
-    player.score++;
-    if (query == player.targetLink) {
-        alert('you Win! it took you ' + player.score + ' links');
+
+
+function confirmConnection() {
+    var userInput = document.getElementById('prompt-input');
+    var previousLink = removeUrlEncoding(player.previousLink);
+    var workingLink = removeUrlEncoding(player.workingLink);
+    if(userInput.value.length === 0) {
+        document.getElementById('prompt-input-required').classList.add('is-visible');
         return;
     }
-    player.links.push(query);
+    if(player.workingLink.toUpperCase() !== player.targetLink.toUpperCase() && player.score >= 9) {
+        endGame('lose')        
+    }
+    if(player.workingLink.toUpperCase() === player.targetLink.toUpperCase()) {
+        endGame('win')
+    }
+    else {
+        document.getElementById('prompt-overlay').classList.remove('is-visible');
+        player.score++;
+        document.getElementById('score').innerText = player.score;
+        player.urlLinks.push(player.previousLink);
+        player.links.push('(' + previousLink + ') is connected to (' + workingLink + ') because ' + userInput.value)
+        player.previousLink = player.workingLink;
+        displayLinks('game-links-list');
+        userInput.value = '';
+        displayArticle();
+    }
+}
+
+
+
+function cancelConnection() {
+    document.getElementById('prompt-overlay').classList.remove('is-visible');
+    document.getElementById('prompt-input').value = '';
+}
+
+
+
+function promptConnection(e){
+    if(/#/.test(this.href)){
+        return;
+    }
+    document.getElementById('prompt-input').classList.remove('is-visible');
+    document.getElementById('prompt-confirm-button').classList.remove('is-visible');
+    document.getElementById('prompt-cancel-button').classList.remove('is-visible');
     e.preventDefault();
-    loadDoc(query);   
+    var query=/\/wiki\/(.*)/.exec(this.href)[1];
+    player.workingLink = query;
+    var previousLink = removeUrlEncoding(player.previousLink);
+    var workingLink = removeUrlEncoding(player.workingLink);
+    document.getElementById('prompt-text').innerText = '('+ previousLink + ') is connected to (' + workingLink + ') because...'
+    document.getElementById('prompt-overlay').classList.add('is-visible');
+    setTimeout(loadJSON, 100, query);
+}
+
+
+
+function previousArticle() {
+    if (player.links.length === 0) {
+        return;
+    }
+    player.workingLink = player.urlLinks[player.urlLinks.length - 1];
+    if (player.urlLinks.length > 1){
+        player.previousLink = player.urlLinks[player.urlLinks.length - 2];
+    }
+    player.urlLinks.pop();
+    player.links.pop();
+    displayLinks('game-links-list');
+    loadJSON(player.workingLink);
+    displayArticle();
+}
+
+
+function displayLinks(id) {
+    var linkslist = document.getElementById(id);
+    while (linkslist.firstChild) {
+        linkslist.removeChild(linkslist.firstChild);
+    }
+    player.links.forEach(function(elem){
+        var listItem = document.createElement('li')
+        listItem.innerText = elem;
+        linkslist.appendChild(listItem);
+    })
+}
+
+
+function endGame(result) {
+    var userInput = document.getElementById('prompt-input');
+    var previousLink = removeUrlEncoding(player.previousLink);
+    var workingLink = removeUrlEncoding(player.workingLink);
+    player.score++;
+    player.links.push('(' + previousLink + ') is connected to (' + workingLink + ') because ' + userInput.value)
+    userInput.value = '';
+    document.getElementById('target-link').innerHTML = '';
+    document.getElementById('starting-link').innerHTML = '';    
+    document.getElementById('prompt-overlay').classList.remove('is-visible');
+    document.getElementById('page').innerHTML = ''
+    switchScreen('game', 'results')
+}
+
+function tryAgain(bool) {
+    player.score = 0;
+    document.getElementById('score').innerText = '';
+    player.urlLinks = [];
+    player.links = [];
+    displayLinks('game-links-list');
+    player.workingLink = '';
+    player.previousLink = player.startingLink;
+    player.article = undefined;
+    if (!bool) {
+        startingLinks();
+    }
+    loadSummary(player.startingLink, player.targetLink);
+    document.getElementById('start-digging-button').classList.remove('removed');
+    switchScreen('results','game');
+}
+
+function removeInputRequired() {
+    document.getElementById('prompt-input-required').classList.remove('is-visible');
+}
+
+
+
+function removeUrlEncoding(str) {
+    return str.replace(/_/g,' ');
 }

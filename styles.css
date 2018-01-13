@@ -109,8 +109,49 @@ Prompt Module
     max-width: 500px;
 }
 
+#prompt-input {
+    visibility: hidden;
+}
+
+#prompt-input.is-visible {
+    visibility: visible;
+}
+
+#prompt-confirm-button {
+    visibility: hidden;
+}
+
+#prompt-confirm-button.is-visible {
+    visibility: visible;
+}
+
+#prompt-cancel-button {
+    visibility: hidden;
+}
+
+#prompt-cancel-button.is-visible {
+    visibility: visible;
+}
+
+#prompt-input-required {
+    visibility: hidden;
+}
+
+#prompt-input-required.is-visible {
+    visibility: visible;
+}
+
 /*
 ===========================================
-Screen Reveal State Rules
+Results Module
 ===========================================
 */
+
+#results {
+    position: absolute;
+    visibility: hidden;
+}
+
+#results.is-visible {
+    visibility: visible;
+}
