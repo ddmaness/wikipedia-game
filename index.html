@@ -1,51 +1,86 @@
 <!Doctype HTML>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="index.js"></script>
+        <link rel="stylesheet" href="https://i.icomoon.io/public/temp/bad8d81e21/UntitledProject/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
         <link rel="stylesheet" href="styles.css">
     </head>
     <body onload="startingLinks()">
-        <div id='prompt-overlay'>
-            <div id='prompt'>
-                <p id="prompt-text"></p>
-                <input id="prompt-input" onfocus="removeInputRequired()" type="text" maxlength = "500">
-                <button id="prompt-confirm-button" onclick="confirmConnection()">Okay</button>
-                <button id="prompt-cancel-button" onclick="cancelConnection()">Cancel</button>
-                <p id="prompt-input-required">Please state how these two topics are related before continuing</p>
+        <div>
+            <div id='loading'>
+                <div id='spinner'></div>
             </div>
-        </div>
-        <div id="start-menu" class="is-visible">
-            <h1>DOWN THE RABBIT HOLE</h1>
-            <button onclick="switchScreen('start-menu', 'how-to')">Start Game</button>
-        </div>
-        <div id="how-to">
-            <h1>How to Play</h1>
-            <p>You will be given two topics</p>
-            <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia for the second topic by following the fewest links possible</p>
-            <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
-                use the <button>Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
-                score)
-            </p>
-            <div id=info-about-game>
-                <p></p>
+            <div id='prompt-overlay'>
+                <div id='prompt'>
+                    <p id="prompt-text"></p>
+                    <textarea id="prompt-input" onkeypress="confirmConnection(event, false)" onclick="removeInputRequired()" onfocus="removeInputRequired()" maxlength = "500"></textarea>
+                    <div>
+                        <button id="prompt-confirm-button" onclick="confirmConnection(event, true)">Okay</button>
+                        <button id="prompt-cancel-button" onclick="cancelConnection(), removeInputRequired()">Cancel</button>
+                    </div>
+                    <p id="prompt-input-required">Please state how these two topics are related before continuing</p>
+                </div>
             </div>
-            <button onclick="switchScreen('how-to', 'game'), loadSummary(player.startingLink, player.targetLink)">I'm Ready to Play</button>
-        </div>
-        <div id="game">
-            <p id="score"></p>
-            <p id="starting-link"></p>
-            <p id="target-link"></p>
-            <div>
-                <ul id="game-links-list">
-                </ul>
+            <div id="start-menu" class="is-visible">
+                <div class="start-menu-title">
+                    <img src="icons/main-logo.svg" alt="Down the Rabbit Hole">
+                    <p class="muted">A Wikipedia Adventure</p>
+                    <button onclick="switchScreen('start-menu', 'how-to')">Start Game</button>
+                </div>
             </div>
-            <button id='start-digging-button' onclick="loadJSON(player.startingLink), displayArticle()">Start Digging!</button>
-            <div id="page"></div>
-            <button onclick="previousArticle()">Previous Article</button>
-        </div>
-        <div id="results">
-            <button onclick="tryAgain(true)">Play again with the same topics</button>
-            <button onclick="tryAgain(false)">Play again with two new topics</button>
+            <div id="how-to">
+                <h1>How to Play</h1>
+                <p>You will be given two topics</p>
+                <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia article for the second topic in less than <span class = "highlight">10</span> links</p>
+                <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
+                    use the <button class="how-to-example-button">Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
+                    score)
+                </p>
+                <div id=info-about-game>
+                    <p></p>
+                </div>
+                <button onclick="switchScreen('how-to', 'game'), loadSummary(player.startingLink, player.targetLink)">I'm Ready to Play</button>
+            </div>
+            <div id="game">
+                <div class="game-fixed-nav">
+                    <div>
+                            <button id="game-fixed-nav-previous-btn" class="is-disabled" onclick="previousArticle()">Back</button>
+                            <button onclick="scrollToId('page')"><span class="icon-arrow-up"></span></button>
+                    </div>
+                    <div id="links-left">
+                        <p class="muted"><span class="highlight" id="score">10</span> link(s) remaining</p>
+                    </div>
+                </div>
+                <div id="starting-link"><img onclick="hideInfo()" src="icons/close.svg" alt="close"/><div></div></div>
+                <div id="target-link"><img onclick="hideInfo()" src="icons/close.svg" alt="close"/><div></div></div>
+                <div class="game-topic">
+                    <div class="game-topic-start">
+                        <h6>Starting topic</h6>
+                    </div>
+                    <div>
+                        <h6><span onclick="revealInfo('starting-link')" class="game-topic-start-clickable highlight"id="starting-link-formated"></span></h6>
+                    </div>
+                    <div class="game-topic-target">
+                        <h6>Target topic</h6>
+                    </div>
+                    <div>
+                        <h6><span onclick="revealInfo('target-link')" class="game-topic-start-clickable highlight"id="target-link-formated"></span></h6>
+                    </div>
+                    <p class="muted">Clicking on topics will reveal more information</p>
+                </div>
+                <div class="game-links">
+                    <ul id="game-links-list">
+                    </ul>
+                </div>
+                <button id='start-digging-button' onclick="loadJSON(player.startingLink)">Start Digging!</button>
+                <div id="page"></div>
+            </div>
+            <div id="results">
+                <button onclick="tryAgain(true)">Play again with the same topics</button>
+                <button onclick="tryAgain(false)">Play again with two new topics</button>
+            </div>
         </div>
     </body>
 </html>
