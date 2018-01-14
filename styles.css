@@ -392,7 +392,7 @@ Prompt Module
     width: 100%;
     position: fixed;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.7);
     display:none;
 }
 
@@ -471,20 +471,65 @@ Spinner Module
 ===========================================
 */
 
+body.is-loading {
+    height: 100%;
+    overflow: hidden;
+}
+
 #loading {
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 2;
     position: absolute;
     display: none;
 }
 
+#loading.is-visible,
+#prompt-loading.is-visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#prompt-loading {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    position: absolute;
+    display: none;
+}
+
+@keyframes spin{
+    0% {
+        border-radius: 50%;
+        background-color:white;
+    }
+    50% {
+        border-radius: 0;
+        background-color: #42adf4;
+    }
+    100% {
+        border-radius: 50%;
+        background-color: white;
+    }
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 #spinner {
     margin: auto;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    background-color: blueviolet;
-    border: 5px solid blue;
+    height: 100px;
+    width: 100px;
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-delay: -500ms;
 }

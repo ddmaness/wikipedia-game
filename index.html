@@ -13,6 +13,7 @@
                 <div id='spinner'></div>
             </div>
             <div id='prompt-overlay'>
+                <div id="prompt-loading"><div id='spinner'></div></div>
                 <div id='prompt'>
                     <p id="prompt-text"></p>
                     <textarea id="prompt-input" onkeypress="confirmConnection(event, false)" onclick="removeInputRequired()" onfocus="removeInputRequired()" maxlength = "500"></textarea>
@@ -74,7 +75,7 @@
                     <ul id="game-links-list">
                     </ul>
                 </div>
-                <button id='start-digging-button' onclick="loadJSON(player.startingLink)">Start Digging!</button>
+                <button id='start-digging-button' onclick="loadJSON(player.startingLink, false)">Start Digging!</button>
                 <div id="page"></div>
             </div>
             <div id="results">

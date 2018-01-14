@@ -87,9 +87,9 @@ function loadSummary(query, queryTwo) {
 
 
 
-function loadJSON(query) {
+function loadJSON(query, fromPromptBool) {
     // Remove 'start digging button if hasn't been removed already
-    openLoadAnimation();
+    openLoadAnimation(fromPromptBool);
     var startDiggingButton =document.getElementById('start-digging-button')
     if (!startDiggingButton.classList.contains('removed')){
         startDiggingButton.classList.add('removed');
@@ -139,8 +139,7 @@ function confirmConnection(event, bool) {
     if (event.keyCode === 13 || bool === true){
         event.preventDefault();
         var query = player.workingLink;
-        var userInput = document.getElementById('prompt-input');
-        if(userInput.value.length === 0) {
+        if(document.getElementById('prompt-input').value.length === 0) {
             document.getElementById('prompt-input-required').classList.add('is-visible');
             return;
         }
@@ -151,19 +150,13 @@ function confirmConnection(event, bool) {
             endGame('win')
         }
         else {
-            if (document.getElementById('game-fixed-nav-previous-btn').classList.contains('is-disabled')){
-                document.getElementById('game-fixed-nav-previous-btn').classList.remove('is-disabled');
-            }
-            document.getElementById('prompt-overlay').classList.remove('is-visible');
             player.score++;
             document.getElementById('score').innerText = 10 - player.score;
             player.urlLinks.push(player.previousLink);
-            player.links.push(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because','span'], [userInput.value, 'span']));
+            player.links.push(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because','span'], [document.getElementById('prompt-input').value, 'span']));
             player.previousLink = player.workingLink;
             displayLinks('game-links-list');
-            userInput.value = '';
-            loadJSON(query);
-            scrollToId('game-links-list');
+            loadJSON(query, true);
         }
     } 
 }
@@ -178,8 +171,9 @@ function cancelConnection() {
 
 
 function promptConnection(e){
+    debugger;
     if(/#/.test(this.href)){
-        if(!/^\/wiki\/#/.test(this.href)){
+        if(!/index\.html#/.test(this.href)){
             document.getElementById('prompt-input').classList.remove('is-visible');
             document.getElementById('prompt-confirm-button').classList.remove('is-visible');
             document.getElementById('prompt-cancel-button').classList.remove('is-visible');
@@ -219,7 +213,7 @@ function previousArticle() {
     player.urlLinks.pop();
     player.links.pop();
     displayLinks('game-links-list');
-    loadJSON(player.workingLink);
+    loadJSON(player.workingLink, false);
     displayArticle();
     scrollToId('page');
 }
@@ -322,20 +316,33 @@ function removeInputRequired() {
 
 
 function removeUrlEncoding(str) {
-    return str.replace(/_/g,' ');
+    decodedStr = decodeURI(str);
+    return decodedStr.replace(/_/g,' ');
 }
 
-function openLoadAnimation(id){
-    document.getElementById('loading').style.display = 'block';
-    //var spinner = document.createElement('div');
-    //spinner.id = 'spinner';
-    //spinner.innerText = 'LOADING';
-    //spinner.style.animationName = 'spinner';
-    //spinner.style.animationDuration = '2s';
-    //spinner.style.animationIterationCount = 'infinite';
-    //document.getElementById(id).appendChild(spinner);
+function openLoadAnimation(inPromptBool){
+    document.getElementsByTagName('body')[0].classList.add('is-loading');
+    if (!inPromptBool){
+        document.getElementById('loading').classList.add('is-visible');
+    }
+    else {
+        document.getElementById('prompt-loading').classList.add('is-visible')
+    }
 }
 
 function closeLoadAnimation() {
-    document.getElementById('loading').style.display = 'none';
+    document.getElementsByTagName('body')[0].classList.remove('is-loading')
+    if (document.getElementById('loading').classList.contains('is-visible')) {
+        document.getElementById('loading').classList.remove('is-visible');
+    }
+    if (document.getElementById('prompt-loading').classList.contains('is-visible')) {
+        document.getElementById('prompt-loading').classList.remove('is-visible');
+        if (document.getElementById('game-fixed-nav-previous-btn').classList.contains('is-disabled')){
+            document.getElementById('game-fixed-nav-previous-btn').classList.remove('is-disabled');
+        }
+        document.getElementById('prompt-overlay').classList.remove('is-visible');
+        document.getElementById('prompt-input').value = '';
+        scrollToId('game-links-list');
+    }
+
 }
