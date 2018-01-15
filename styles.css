@@ -4,6 +4,10 @@ Modifying Wiki article output
 =========================================
 */
 
+.wiki-output {
+    padding-top: 72px;
+}
+
 .wiki-output,
 .wiki-summary-output {
     padding-left: 8px;
@@ -64,7 +68,7 @@ table,
 .wiki-summary-output div.reflist.columns.references-column-width a,
 .wiki-summary-output div.refbegin.columns.references-column-width a,
 .wiki-summary-output a.external.text,
-.wiki-summary-output .invalid-link {
+.wiki-summary-output a.invalid-link {
   text-decoration: none;
   color: black;
   pointer-events: none;
@@ -195,7 +199,7 @@ textarea:focus {
 .highlight-secondary {
     text-transform: uppercase;
     font-weight: bolder;
-    color: #464646;
+    color: #292929;
 }
 
 
@@ -344,18 +348,7 @@ Game Module
     margin-left: 0;
 }
 
-.info-overlay {
-    display: none;
-    background-color: green;
-    height:100%;
-    width:100%;
-}
-
-.info-overlay.is-visible {
-    display:block;
-}
-
-.page-wrapper {
+.page-container {
     width:100%;
     background-color: black;
 }
@@ -364,6 +357,56 @@ Game Module
     max-width: 1200px;
     margin: auto;
 }
+
+@media screen and (min-width:600px) {
+    .game-topic {
+        padding-top: 72px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .game-topic p {
+        text-align: center;
+        margin: 24px auto;
+    }
+
+    .game-topic div:last-of-type {
+        flex: 0 0 100%;
+        
+    }
+
+    .game-topic-start,
+    .game-topic-target {
+        margin-top: 0;
+    }
+
+    .game-topic-start-clickable{
+        font-size: 32px;
+    }
+
+}
+
+@media screen and (min-width: 750px){
+
+    .game-topic h6 {
+        font-size: 32px;
+    }
+
+    .game-topic-start-clickable{
+        font-size: 44px;
+    }
+    
+}
+
+@media screen and (min-width: 900px) {
+    .game-topic {
+        max-width: 900px;
+        margin: auto;
+    }
+}
+
 
 /*
 ===========================================
@@ -397,16 +440,17 @@ Game Links Module
 }
 
 #game-links-list {
+    margin: auto;
     -webkit-padding-start: 0 !important;
     display:flex;
     flex: 0 0 900px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-around;
 }
 
 #game-links-list li {
-    text-shadow: 0px 0px 4px #FFFFFF;
+    text-shadow: 0px 0px 1px #FFFFFF;
     padding: 0 8px;
     font-size: 24px;
     font-weight: bold;
@@ -430,6 +474,10 @@ Game Links Module
     .game-links-cliff-left,
     .game-links-cliff-right {
         display: none;
+    }
+
+    #game-links-list {
+        flex-shrink: 1;
     }
 }
 
@@ -520,6 +568,7 @@ Prompt Module
 }
 
 #prompt {
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items:center;
@@ -527,6 +576,10 @@ Prompt Module
     text-align: center;
     background-color: white;
     max-width: 500px;
+}
+
+#prompt-text {
+    max-width: 80%;
 }
 
 #prompt-input {
@@ -541,6 +594,7 @@ Prompt Module
 #prompt-confirm-button,
 #prompt-cancel-button {
     width: 100px;
+    margin: 16px;
 }
 
 
@@ -590,6 +644,7 @@ Error Module
 }
 
 .error {
+    margin:auto;
     display: flex;
     flex-direction: column;
     align-items:center;
@@ -607,6 +662,7 @@ Results Module
 */
 
 .results-container {
+    z-index: -1;
     width: 100%;
     position: absolute;
 }

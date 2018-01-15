@@ -63,33 +63,41 @@
                         </div>
                     </div>
                 </div>
-                <div id="starting-link"><img onclick="hideInfo()" src="icons/close.svg" alt="close"/><div></div></div>
-                <div id="target-link"><img onclick="hideInfo()" src="icons/close.svg" alt="close"/><div></div></div>
-                <div class="game-topic">
-                    <div class="game-topic-start">
-                        <h6>Starting topic</h6>
+                <div id="starting-link"><img onclick="toggleInfo('starting-link')" src="icons/close.svg" alt="close"/><div></div></div>
+                <div id="target-link"><img onclick="toggleInfo('target-link')" src="icons/close.svg" alt="close"/><div></div></div>
+                <div class="game-topic-wrapper">
+                    <div class="game-topic">
+                        <div>
+                            <div class="game-topic-start">
+                                <h6>Starting topic</h6>
+                            </div>
+                            <div>
+                                <h6><span onclick="toggleInfo('starting-link')" class="game-topic-start-clickable highlight"id="starting-link-formated"></span></h6>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="game-topic-target">
+                                <h6>Target topic</h6>
+                            </div>
+                            <div>
+                                <h6><span onclick="toggleInfo('target-link')" class="game-topic-start-clickable highlight"id="target-link-formated"></span></h6>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="muted">Clicking on topics will reveal more information</p>
+                        </div>
+                        <button id='start-digging-button' onclick="loadJSON(player.startingLink, false)">Start Digging!</button>
                     </div>
-                    <div>
-                        <h6><span onclick="revealInfo('starting-link')" class="game-topic-start-clickable highlight"id="starting-link-formated"></span></h6>
+                    <div class="game-links">
+                        <div class="game-links-cliff-left">
+                        </div>
+                        <ul id="game-links-list">
+                        </ul>
+                        <div class="game-links-cliff-right">
+                        </div>
                     </div>
-                    <div class="game-topic-target">
-                        <h6>Target topic</h6>
-                    </div>
-                    <div>
-                        <h6><span onclick="revealInfo('target-link')" class="game-topic-start-clickable highlight"id="target-link-formated"></span></h6>
-                    </div>
-                    <p class="muted">Clicking on topics will reveal more information</p>
                 </div>
-                <div class="game-links">
-                    <div class="game-links-cliff-left">
-                    </div>
-                    <ul id="game-links-list">
-                    </ul>
-                    <div class="game-links-cliff-right">
-                    </div>
-                </div>
-                <button id='start-digging-button' onclick="loadJSON(player.startingLink, false)">Start Digging!</button>
-                <div class="page-wrapper">
+                <div class="page-container">
                     <div id="page"></div>
                 </div>
             </div>

@@ -50,8 +50,8 @@ function switchScreen(idToHide, idToReveal) {
 // retrieve the summary section of two random elements from the queries array
 function loadSummary(query, queryTwo) {
     openLoadAnimation();
-    var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-summary-output&origin=*'
-    var urlTwo = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + queryTwo + '&format=json&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-summary-output&origin=*'
+    var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&redirects=1&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-summary-output&origin=*'
+    var urlTwo = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + queryTwo + '&format=json&redirects=1&section=0&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-summary-output&origin=*'
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -240,21 +240,9 @@ function displayLinks(id) {
     })
 }
 
-function revealInfo(id) {
-    document.getElementsByClassName('info-overlay')[0].classList.add('is-visible');
-    document.getElementById(id).classList.add('is-visible');
-}
-
-
-function hideInfo() {
-    var startingLink = document.getElementById('starting-link');
-    var targetLink = document.getElementById('target-link');
-    if(startingLink.classList.contains('is-visible')) {
-        startingLink.classList.remove('is-visible');
-    }
-    if(targetLink.classList.contains('is-visible')) {
-        targetLink.classList.remove('is-visible');
-    }
+function toggleInfo(id) {
+    var infoPanel = document.getElementById(id)
+    infoPanel.classList.contains('is-visible') ? infoPanel.classList.remove('is-visible') : infoPanel.classList.add('is-visible')
 }
 
 
