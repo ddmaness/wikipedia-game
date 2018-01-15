@@ -88,21 +88,26 @@ function loadSummary(query, queryTwo) {
 function loadJSON(query, fromPromptBool) {
     // Remove 'start digging button if hasn't been removed already
     openLoadAnimation(fromPromptBool);
-    var startDiggingButton =document.getElementById('start-digging-button')
-    if (!startDiggingButton.classList.contains('removed')){
-        startDiggingButton.classList.add('removed');
-    }
     // Retrieve wiki of query topic and display formated version on page
     var url = 'https://en.wikipedia.org/w/api.php?action=parse&page=' + query + '&format=json&redirects=1&prop=text%7Ccategories%7Clinks%7Ctemplates%7Csections%7Crevid%7Cdisplaytitle%7Ciwlinks%7Cproperties%7Cparsewarnings&wrapoutputclass=wiki-output&origin=*'
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+            closeLoadAnimation();
+            if (JSON.parse(this.responseText).error){
+                toggleError();
+                return false;
+            }
+            var startDiggingButton =document.getElementById('start-digging-button')
+            if (!startDiggingButton.classList.contains('removed')){
+                startDiggingButton.classList.add('removed');
+            }
             player.article = JSON.parse(this.responseText);
             displayArticle();
-            closeLoadAnimation();
             document.getElementById('prompt-input').classList.add('is-visible');
             document.getElementById('prompt-confirm-button').classList.add('is-visible');
             document.getElementById('prompt-cancel-button').classList.add('is-visible');
+            return true;
         }
     }
     xhr.open("GET", url, true);
@@ -169,11 +174,9 @@ function cancelConnection() {
 
 
 function promptConnection(e){
+    debugger;
     if(/#/.test(this.href)){
         if(!/\.surge\.sh\/#/.test(this.href)){
-            document.getElementById('prompt-input').classList.remove('is-visible');
-            document.getElementById('prompt-confirm-button').classList.remove('is-visible');
-            document.getElementById('prompt-cancel-button').classList.remove('is-visible');
             e.preventDefault();
             var query=/\.surge\.sh\/wiki\/(.*)#/.exec(this.href)[1];
             player.workingLink = query;
@@ -183,10 +186,11 @@ function promptConnection(e){
         }
         return;
     }
-    document.getElementById('prompt-input').classList.remove('is-visible');
-    document.getElementById('prompt-confirm-button').classList.remove('is-visible');
-    document.getElementById('prompt-cancel-button').classList.remove('is-visible');
     e.preventDefault();
+    if (!/\/wiki\/(.*)/.test(this.href)) {
+        toggleError();
+        return;
+    }
     var query=/\/wiki\/(.*)/.exec(this.href)[1];
     player.workingLink = query;
     document.getElementById('prompt-text').innerHTML = '';
@@ -346,4 +350,9 @@ function closeLoadAnimation() {
         scrollToId('game-links-list');
     }
 
+}
+
+function toggleError() {
+    var error = document.getElementById('error-overlay')
+    error.classList.contains('is-visible') ? error.classList.remove('is-visible') : error.classList.add('is-visible');
 }
