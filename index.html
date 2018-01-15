@@ -36,18 +36,20 @@
                     <button onclick="switchScreen('start-menu', 'how-to')">Start Game</button>
                 </div>
             </div>
-            <div id="how-to">
-                <h1>How to Play</h1>
-                <p>You will be given two topics</p>
-                <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia article for the second topic no more than <span class = "highlight">10</span> links</p>
-                <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
-                    use the <button class="how-to-example-button">Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
-                    score)
-                </p>
-                <div id=info-about-game>
-                    <p></p>
+            <div class = "how-to-container">
+                <div id="how-to">
+                    <h1>How to Play</h1>
+                    <p>You will be given two topics</p>
+                    <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia article for the second topic no more than <span class = "highlight">10</span> links</p>
+                    <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
+                        use the <button class="how-to-example-button">Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
+                        score)
+                    </p>
+                    <div id=info-about-game>
+                        <p></p>
+                    </div>
+                    <button onclick="switchScreen('how-to', 'game'), loadSummary(player.startingLink, player.targetLink)">I'm Ready to Play</button>
                 </div>
-                <button onclick="switchScreen('how-to', 'game'), loadSummary(player.startingLink, player.targetLink)">I'm Ready to Play</button>
             </div>
             <div id="game">
                 <div class="game-fixed-nav">
@@ -79,8 +81,12 @@
                     <p class="muted">Clicking on topics will reveal more information</p>
                 </div>
                 <div class="game-links">
+                    <div class="game-links-cliff-left">
+                    </div>
                     <ul id="game-links-list">
                     </ul>
+                    <div class="game-links-cliff-right">
+                    </div>
                 </div>
                 <button id='start-digging-button' onclick="loadJSON(player.startingLink, false)">Start Digging!</button>
                 <div class="page-wrapper">
