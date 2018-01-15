@@ -313,8 +313,8 @@ Game Module
     background-color: #8ccef7;
     height:0;
     position: absolute;
-    margin-left: -290px;
-    max-width: 290px;
+    margin-left: -100vw;
+    max-width: 100vw;
     -webkit-transition: margin-left 1s ease;
     -moz-transition: margin-left 1s ease;
     transition: margin-left 1s ease;
@@ -337,9 +337,19 @@ Game Module
     margin-left: 0;
 }
 
+.info-overlay {
+    display: none;
+    background-color: green;
+    height:100%;
+    width:100%;
+}
+
+.info-overlay.is-visible {
+    display:block;
+}
+
 .page-wrapper {
     width:100%;
-    overflow: hidden;
     background-color: black;
 }
 
@@ -402,9 +412,6 @@ Game Nav Bar Module
     border-bottom: 2px solid #42adf4;
     position: fixed;
     height: 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     -webkit-transition: margin-top 1s ease 2s;
     -moz-transition: margin-top 1s ease 2s;
     transition: margin-top 1s ease 2s;
@@ -412,6 +419,14 @@ Game Nav Bar Module
 
 .game-fixed-nav.is-visible{
     margin-top: 0;
+}
+
+.game-fixed-nav-container {
+    margin: auto;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .game-fixed-nav button {
@@ -429,10 +444,27 @@ Game Nav Bar Module
     border: 2px solid #6e6e6e;
 }
 
+.game-fixed-nav-up-btn {
+    font-size: 24px;
+    vertical-align: top;
+}
+
 .game-fixed-nav p {
     padding-right: 8px;
 }
 
+@media screen and (min-width: 400px) {
+    .game-fixed-nav p {
+        font-size: 16px;
+        line-height: 1em;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .game-fixed-nav {
+        justify-content: space-around;
+    }
+}
 /*
 ===========================================
 Prompt Module

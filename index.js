@@ -241,6 +241,7 @@ function displayLinks(id) {
 }
 
 function revealInfo(id) {
+    document.getElementsByClassName('info-overlay')[0].classList.add('is-visible');
     document.getElementById(id).classList.add('is-visible');
 }
 
