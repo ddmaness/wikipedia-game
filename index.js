@@ -13,9 +13,7 @@ var player = {
 
 
 var queries = [
-    'Athens',
-    'Stoicism',
-    'Ancient_Rome',
+    'Greek_Language',
     'Battle_of_Marathon',
 ]
 
@@ -123,14 +121,14 @@ function displayArticle() {
     }
     var links = document.getElementsByTagName('a');
     var linksArr = Array.prototype.slice.call(links);
-    linksArr.forEach(function(elem){
-        if (/^https?:|.ogv$|.webm$|.ogg$|.svg$|Portal:|Special:|\.php/.test(elem.href)) {
+    linksArr.forEach(function(elem) {
+        if (/Special:|File:|\.ogg/.test(elem.href)){
             elem.classList.add('invalid-link');
         }
-        else {
-            elem.addEventListener("click", promptConnection)
+        else{
+            elem.addEventListener('click', promptConnection);
         }
-    })
+    });
 }
 
 
@@ -171,14 +169,13 @@ function cancelConnection() {
 
 
 function promptConnection(e){
-    debugger;
     if(/#/.test(this.href)){
-        if(!/index\.html#/.test(this.href)){
+        if(!/\.surge\.sh\/#/.test(this.href)){
             document.getElementById('prompt-input').classList.remove('is-visible');
             document.getElementById('prompt-confirm-button').classList.remove('is-visible');
             document.getElementById('prompt-cancel-button').classList.remove('is-visible');
             e.preventDefault();
-            var query=/\/wiki\/(.*)#/.exec(this.href)[1];
+            var query=/\.surge\.sh\/wiki\/(.*)#/.exec(this.href)[1];
             player.workingLink = query;
             document.getElementById('prompt-text').innerHTML = '';
             document.getElementById('prompt-text').appendChild(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because...', 'span']))
@@ -259,12 +256,14 @@ function hideInfo() {
 function endGame(result) {
     var userInput = document.getElementById('prompt-input');
     player.score++;
-    player.links.push(highlightStr(player.previousLink) + ' is connected to ' + highlightStr(player.workingLink) + ' because ' + userInput.value)
+    player.links.push(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because','span'], [document.getElementById('prompt-input').value, 'span']));
     userInput.value = '';
-    document.getElementById('target-link').innerHTML = '';
-    document.getElementById('starting-link').innerHTML = '';    
+    document.getElementById('target-link').lastChild.innerHTML = '';
+    document.getElementById('starting-link').lastChild.innerHTML = '';    
     document.getElementById('prompt-overlay').classList.remove('is-visible');
     document.getElementById('page').innerHTML = ''
+    result === 'win' ? document.getElementById('results-text').innerText = "You won in " + player.score + " link(s)!" : document.getElementById('results-text').innerText = "You've run out of links..." 
+    displayLinks('results-list');
     switchScreen('game', 'results');
 }
 
@@ -289,7 +288,9 @@ function inlineElem() {
 
 function tryAgain(bool) {
     player.score = 0;
-    document.getElementById('score').innerText = '';
+    document.getElementsByClassName('game-links')[0].classList.remove('is-visible');
+    document.getElementById('game-fixed-nav-previous-btn').classList.add('is-disabled');
+    document.getElementById('score').innerText = '10';
     player.urlLinks = [];
     player.links = [];
     displayLinks('game-links-list');

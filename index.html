@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body onload="startingLinks()">
-        <div>
+        <div class='container'>
             <div id='loading'>
                 <div id='spinner'></div>
             </div>
@@ -34,7 +34,7 @@
             <div id="how-to">
                 <h1>How to Play</h1>
                 <p>You will be given two topics</p>
-                <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia article for the second topic in less than <span class = "highlight">10</span> links</p>
+                <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia article for the second topic no more than <span class = "highlight">10</span> links</p>
                 <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
                     use the <button class="how-to-example-button">Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
                     score)
@@ -76,11 +76,20 @@
                     </ul>
                 </div>
                 <button id='start-digging-button' onclick="loadJSON(player.startingLink, false)">Start Digging!</button>
-                <div id="page"></div>
+                <div class="page-wrapper">
+                    <div id="page"></div>
+                </div>
             </div>
-            <div id="results">
-                <button onclick="tryAgain(true)">Play again with the same topics</button>
-                <button onclick="tryAgain(false)">Play again with two new topics</button>
+            <div class="results-container">
+                <div id="results">
+                    <h1 id="results-text"></h1>
+                    <div>
+                        <ul id="results-list">
+                        </ul>
+                    </div>
+                    <button onclick="tryAgain(true)">Play again with the same topics</button>
+                    <button onclick="tryAgain(false)">Play again with two new topics</button>
+                </div>
             </div>
         </div>
     </body>
