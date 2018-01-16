@@ -39,6 +39,7 @@ Modifying Wiki article output
 .wiki-output img,
 .wiki-output .thumbcaption,
 .wiki-summary-output .thumbcaption,
+.wiki-summary-output .error
 .hatnote.navigation-not-searchable,
 .mw-editsection,
 div.reflist.columns.references-column-width b,
@@ -643,7 +644,7 @@ Error Module
     display: block;
 }
 
-.error {
+.error-display {
     margin:auto;
     display: flex;
     flex-direction: column;

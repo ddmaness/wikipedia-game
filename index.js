@@ -13,9 +13,69 @@ var player = {
 
 
 var queries = [
-    'Greek_Language',
-    'Battle_of_Marathon',
+    'Metabolism',
+    'Catabolism',
+    'Epidermis',
+    'Homeostasis',
+    'Capillary',
+    'Lymphocyte',
+    'Arthropod',
+    'Austria',
+    'Binomial_nomenclature',
+    'Belarus',
+    'Bangladesh',
+    'Complex_number',
+    'Darth_Vader',
+    'David_Bowie',
+    'Edward_VIII',
+    'Flickr',
+    'Geographic_coordinate_system',
+    'Hong_Kong',
+    'IP_address',
+    'India',
+    'Lady_Gaga',
+    'Lepidoptera',
+    'Mariah_Carey',
+    'New_Zealand',
+    'Ottoman_Empire',
+    'Proxy_server',
+    'Philippines',
+    'Queen_Victoria',
+    'Qing_dynasty',
+    'Rail_transport',
+    'Stranger_Things',
+    'Tilde',
+    'Uzbekistan',
+    'Venezuela',
+    'Volleyball',
+    'World_War_I',
+    'William_Shakespeare',
+    'Xi_Jinping',
+    'Year_2000_problem',
+    'Zimbabwe',
+    'Zolpidem',
+    'Korhogo_Department',
+    'Australian_rules_football',
+    'Thirty_Years%27_War',
+    'Agatha_Christie',
+    'Kepler%27s_laws_of_planetary_motion',
+    'Electromagnetic_spectrum',
+    'Doppler_effect',
+    'Big_Bang',
+    'Sunspot',
+    'Myelin',
+    'Classical_conditioning',
+    'Bottlenose_dolphin',
+    'Recycling',
+    'Lockheed_Martin_F-35_Lightning_II',
+    'Werewolf',
+    'Backgammon',
+    'Monarch_butterfly',
+    'Battle_of_Sekigahara',
+    'Amygdala',
+    'Milgram_experiment'
 ]
+
 
 
 // Return random element from queries array
@@ -84,7 +144,7 @@ function loadSummary(query, queryTwo) {
 }
 
 
-
+// Load the html from the wikipedia api
 function loadJSON(query, fromPromptBool) {
     // Remove 'start digging button if hasn't been removed already
     openLoadAnimation(fromPromptBool);
@@ -115,7 +175,7 @@ function loadJSON(query, fromPromptBool) {
 }
 
 
-
+// Display article from wiki api request
 function displayArticle() {
     document.getElementById('page').innerHTML = player.article.parse.text['*'];
     if(!document.getElementsByClassName('game-links')[0].classList.contains('is-visible')){
@@ -137,7 +197,7 @@ function displayArticle() {
 }
 
 
-
+// Handle confirmation of link selection
 function confirmConnection(event, bool) {
     if (event.keyCode === 13 || bool === true){
         event.preventDefault();
@@ -165,14 +225,14 @@ function confirmConnection(event, bool) {
 }
 
 
-
+// Cancel link selection
 function cancelConnection() {
     document.getElementById('prompt-overlay').classList.remove('is-visible');
     document.getElementById('prompt-input').value = '';
 }
 
 
-
+// Display link confirmation prompt or follow link if it takes user to another part of the page
 function promptConnection(e){
     debugger;
     if(/#/.test(this.href)){
@@ -199,7 +259,7 @@ function promptConnection(e){
 }
 
 
-
+// Bring up previous wiki article
 function previousArticle() {
     if (player.links.length === 0) {
         return;
@@ -219,7 +279,7 @@ function previousArticle() {
     scrollToId('page');
 }
 
-
+// Display a list of selected links
 function displayLinks(id) {
     var linkslist = document.getElementById(id);
     while (linkslist.firstChild) {
@@ -240,12 +300,13 @@ function displayLinks(id) {
     })
 }
 
+// Open and close info panel
 function toggleInfo(id) {
     var infoPanel = document.getElementById(id)
     infoPanel.classList.contains('is-visible') ? infoPanel.classList.remove('is-visible') : infoPanel.classList.add('is-visible')
 }
 
-
+// Handle win/lose condition
 function endGame(result) {
     var userInput = document.getElementById('prompt-input');
     player.score++;
@@ -279,6 +340,7 @@ function inlineElem() {
     return p;
 }
 
+// Allows user to try again with same topics or two new topics
 function tryAgain(bool) {
     player.score = 0;
     document.getElementsByClassName('game-links')[0].classList.remove('is-visible');
@@ -298,22 +360,24 @@ function tryAgain(bool) {
     switchScreen('results','game');
 }
 
+// Scroll user to specified part of page
 function scrollToId(id) {
     document.getElementById(id).scrollIntoView(true);
     window.scrollBy(0, -60);
 }
 
+// Prompt user for input if user attempts to confirm an empty textarea
 function removeInputRequired() {
     document.getElementById('prompt-input-required').classList.remove('is-visible');
 }
 
-
-
+// Remove url encoding from links
 function removeUrlEncoding(str) {
     decodedStr = decodeURI(str);
     return decodedStr.replace(/_/g,' ');
 }
 
+// Display spinner
 function openLoadAnimation(inPromptBool){
     document.getElementsByTagName('body')[0].classList.add('is-loading');
     if (!inPromptBool){
@@ -324,6 +388,7 @@ function openLoadAnimation(inPromptBool){
     }
 }
 
+// Hide spinner
 function closeLoadAnimation() {
     document.getElementsByTagName('body')[0].classList.remove('is-loading')
     if (document.getElementById('loading').classList.contains('is-visible')) {
@@ -341,6 +406,7 @@ function closeLoadAnimation() {
 
 }
 
+// Open/close error message
 function toggleError() {
     var error = document.getElementById('error-overlay')
     error.classList.contains('is-visible') ? error.classList.remove('is-visible') : error.classList.add('is-visible');
