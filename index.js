@@ -241,7 +241,7 @@ function promptConnection(e){
             var query=/\.surge\.sh\/wiki\/(.*)#/.exec(this.href)[1];
             player.workingLink = query;
             document.getElementById('prompt-text').innerHTML = '';
-            document.getElementById('prompt-text').appendChild(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because...', 'span']))
+            document.getElementById('prompt-text').appendChild(inlineElem(['How are', 'span'], [removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['and', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['connected?', 'span']));
             document.getElementById('prompt-overlay').classList.add('is-visible');
         }
         return;
@@ -254,7 +254,7 @@ function promptConnection(e){
     var query=/\/wiki\/(.*)/.exec(this.href)[1];
     player.workingLink = query;
     document.getElementById('prompt-text').innerHTML = '';
-    document.getElementById('prompt-text').appendChild(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because...', 'span']))
+    document.getElementById('prompt-text').appendChild(inlineElem(['How are', 'span'], [removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['and', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['connected?', 'span']));
     document.getElementById('prompt-overlay').classList.add('is-visible');
 }
 
