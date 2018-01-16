@@ -272,6 +272,24 @@ How-To-Play Module
     pointer-events: none;
 }
 
+.how-to-more-info {
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    user-select: none;
+    cursor: pointer;
+}
+
+#how-to-game-info {
+    opacity: 0;
+    -webkit-transition: opacity 500ms ease;
+    -moz-transition: opacity 500ms ease;
+    transition: opacity 500ms ease;
+}
+
+#how-to-game-info.is-visible {
+    opacity: 1;
+}
 /*
 ===========================================
 Game Module

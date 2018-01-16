@@ -199,6 +199,7 @@ function displayArticle() {
 
 // Handle confirmation of link selection
 function confirmConnection(event, bool) {
+    debugger;
     if (event.keyCode === 13 || bool === true){
         event.preventDefault();
         var query = player.workingLink;
@@ -207,13 +208,15 @@ function confirmConnection(event, bool) {
             return;
         }
         if(player.workingLink.toUpperCase() !== player.targetLink.toUpperCase() && player.score >= 9) {
-            endGame('lose')        
+            endGame('lose');
         }
-        if(player.workingLink.toUpperCase() === player.targetLink.toUpperCase()) {
+        else if(player.workingLink.toUpperCase() === player.targetLink.toUpperCase()) {
             endGame('win')
+
         }
         else {
             player.score++;
+            document.getElementById('link-or-links').innerText = player.score === 9 ? 'link' : 'links'
             document.getElementById('score').innerText = 10 - player.score;
             player.urlLinks.push(player.previousLink);
             player.links.push(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because','span'], [document.getElementById('prompt-input').value, 'span']));
@@ -307,6 +310,7 @@ function toggleInfo(id) {
 
 // Handle win/lose condition
 function endGame(result) {
+    var linkstr = player.score === 1 ? 'link' : 'links'
     var userInput = document.getElementById('prompt-input');
     player.score++;
     player.links.push(inlineElem([removeUrlEncoding(player.previousLink), 'span', 'highlight-secondary'], ['is connected to', 'span'], [removeUrlEncoding(player.workingLink), 'span', 'highlight-secondary'], ['because','span'], [document.getElementById('prompt-input').value, 'span']));
@@ -315,7 +319,7 @@ function endGame(result) {
     document.getElementById('starting-link').lastChild.innerHTML = '';    
     document.getElementById('prompt-overlay').classList.remove('is-visible');
     document.getElementById('page').innerHTML = ''
-    result === 'win' ? document.getElementById('results-text').innerText = "You won in " + player.score + " link(s)!" : document.getElementById('results-text').innerText = "You've run out of links..." 
+    result === 'win' ? document.getElementById('results-text').innerText = "You won in " + player.score + " " + linkstr : document.getElementById('results-text').innerText = "You've run out of links..." 
     displayLinks('results-list');
     switchScreen('game', 'results');
 }

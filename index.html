@@ -41,14 +41,16 @@
                     <h1>How to Play</h1>
                     <p>You will be given two topics</p>
                     <p>Your goal is to get from the wikipedia article for the first topic to the wikipedia article for the second topic no more than <span class = "highlight">10</span> links</p>
+                    <p>After clicking each link you will be asked to explain how the link you selected is related to the previous link. This will be displayed at the end and help to better show how all of the topics in the game interrelate</p>
                     <p>NOTE: If you use the back or refresh button in your browser all of your progress will be lost. If you need to return to a previous article please
-                        use the <button class="how-to-example-button">Previous Article</button> button provided in the browser (returning to a previous article will not count as a link for your total
+                        use the <button class="how-to-example-button">Back</button> button provided in the browser (returning to a previous article will not count as a link for your total
                         score)
                     </p>
-                    <div id=info-about-game>
-                        <p></p>
-                    </div>
                     <button onclick="switchScreen('how-to', 'game'), loadSummary(player.startingLink, player.targetLink)">I'm Ready to Play</button>
+                    <p class="how-to-more-info muted" onclick="toggleInfo('how-to-game-info')">click here to learn more about this project</p>
+                    <div id="how-to-game-info">
+                        <p>This game was inspired by the "plot your route" game as explained in <a href="https://www.youtube.com/watch?v=MuDLw1zIc94&t=451s">this</a> presentation by Extra Credits</p>
+                    </div>
                 </div>
             </div>
             <div id="game">
@@ -59,7 +61,7 @@
                             <button class="game-fixed-nav-up-btn" onclick="scrollToId('page')">&uarr;</button>
                         </div>
                         <div id="links-left">
-                            <p class="muted"><span class="highlight" id="score">10</span> link(s) remaining</p>
+                            <p class="muted"><span class="highlight" id="score">10</span> <span id="link-or-links">links</span> remaining</p>
                         </div>
                     </div>
                 </div>
