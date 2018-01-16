@@ -234,7 +234,6 @@ function cancelConnection() {
 
 // Display link confirmation prompt or follow link if it takes user to another part of the page
 function promptConnection(e){
-    debugger;
     if(/#/.test(this.href)){
         if(!/\.surge\.sh\/#/.test(this.href)){
             e.preventDefault();
